@@ -1,3 +1,4 @@
+fake_headers==1.0.2
 python-dotenv==1.1.1
 python_dateutil==2.9.0.post0
 pytz==2024.1
