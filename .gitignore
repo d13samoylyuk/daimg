@@ -1,0 +1,8 @@
+images
+errors_hangout
+__pycache__
+
+test.py
+config.json
+history.csv
+.env

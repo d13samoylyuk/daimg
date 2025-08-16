@@ -1,0 +1,6 @@
+{
+    "NASA_APOD": {
+        "403": "Source (site) \"https://api.nasa.gov/\" denied access for you.\nTry opening this site, and if it says \"Forbidden\" - then\ntry turning on a VPN and reload the page.\nIf it helps, use this program with a VPN.",
+        "504": "Source (site) \"https://api.nasa.gov/\" is not responding.\nTry again later"
+    }
+}

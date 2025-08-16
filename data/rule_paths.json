@@ -1,0 +1,9 @@
+{
+    "images_store": "images",
+    "config": "data/config.json",
+    "env": "data/.env",
+    "history": "data/history.csv",
+    "errors_hangout": "data/errors_hangout",
+    "errors_info": "data/errors_hangout/.errors_info.json",
+    "errors_uncode": "data/errors_uncode.json"
+}
