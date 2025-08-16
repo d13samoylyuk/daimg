@@ -62,7 +62,7 @@ Then comes the process of downloading the image and setting it as the desktop wa
 
 
 ## Error handling
-Every error report is saved in the `data/errors_hangout` folder. For private contact about any program programs, use my contacts
+Every error report is saved in the `data/errors_hangout` folder. For private contact about any program problems, use my contacts.
 
 
 ## Contacts
