@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+import sys
+import os
+
 from time import sleep
 import traceback
 
@@ -74,7 +78,6 @@ def get_api_key():
         else:
             print('Invalid API key. Please try again.')
             sleep(2)
-
 
 
 if __name__ == '__main__':

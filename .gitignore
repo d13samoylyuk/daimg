@@ -1,6 +1,7 @@
 images
 errors_hangout
 __pycache__
+.venv
 
 test.py
 config.json

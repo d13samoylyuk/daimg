@@ -45,12 +45,18 @@ def error_report():
 
 def save_error_report(exception: Exception) -> None:
     report_text = create_error_report(exception)
-    errors_store_path = get_path('errors_hangout')
     file_name = make_error_file_name(time_now(nice_format=True))
+
+    # 1.ERRFILE | getting a local path for the errors save folder
+    errors_store_path = get_path('errors_hangout')
     file_path = errors_store_path + '/' + file_name
+
+    # 2.ERRFILE | saving file with error report
     write_file(file_path, report_text)
 
+    # 3.ERRFILE | getting an absolute path to report file
     abs_file_path = os.path.abspath(file_path)
+    # 4.ERRFILE | tossing this path into informative variable
     ERROR_REPORT['report path'] = f'{abs_file_path}'
 
     if isinstance(exception, DaimngError):

@@ -1,11 +1,13 @@
 from modules.files import check_file_exists, create_folder, write_file
 from modules.program import get_path
 
+
 sys_files_contents = {
     "history": "id,file_name,date,description\n",
 
     "config": ('{'
-    '"imgs_path": null'
+    '"imgs_path": null,'
+    '"OS": null'
     '}'),
 
     "errors_info": ('{'

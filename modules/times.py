@@ -6,7 +6,7 @@ from dateutil import tz
 
 def time_now(nice_format: bool = False) -> datetime | str:
     if nice_format:
-        return datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        return datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
     return datetime.now()
 
 
