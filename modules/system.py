@@ -3,13 +3,13 @@ import os
 from pathlib import Path
 import platform
 import subprocess
+import tkinter
 
-from test import screen_info
+from modules.basic import two_number_ratio
 
 
 MACHINE_PLATFORM = {
     "OS": platform.system(),
-    "display": screen_info()
 }
 
 
@@ -69,3 +69,18 @@ def clear_terminal():
         os.system('clear')
     elif MACHINE_PLATFORM['OS'] == 'Windows':
         os.system('cls')
+
+
+def screen_info() -> tuple:
+    '''returns screen width, height and aspect ratio as a tuple'''
+
+    root = tkinter.Tk()
+
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    return {
+        'width': screen_width,
+        'height': screen_height,
+        'ratio': two_number_ratio(screen_width, screen_height)
+    }

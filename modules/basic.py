@@ -1,3 +1,6 @@
+import math
+
+
 def define_id(number: str | int,
               prefix: str = "id_",
               max_id_lenth: int = 13,
@@ -14,3 +17,10 @@ def define_id(number: str | int,
     num = padding_char * lenth + number
 
     return f'{prefix}{num}{suffix}'
+
+
+def two_number_ratio(num1: int, num2: int) -> tuple:
+    '''returns the simplest ratio of two numbers as a tuple'''
+
+    gcd = math.gcd(num1, num2)
+    return (num1//gcd, num2//gcd)
