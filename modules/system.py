@@ -8,8 +8,7 @@ from test import screen_info
 
 
 MACHINE_PLATFORM = {
-    "OS": platform.system(),
-    "display": screen_info()
+    "OS": platform.system()
 }
 
 
