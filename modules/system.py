@@ -71,7 +71,7 @@ def clear_terminal():
         os.system('cls')
 
 
-def screen_info() -> tuple:
+def get_screen_info() -> tuple[int, int, tuple[int, int]]:
     '''returns screen width, height and aspect ratio as a tuple'''
 
     root = tkinter.Tk()
