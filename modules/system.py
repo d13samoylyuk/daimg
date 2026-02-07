@@ -3,13 +3,14 @@ import os
 from pathlib import Path
 import platform
 import subprocess
+
 import tkinter
 
 from modules.basic import two_number_ratio
 
 
 MACHINE_PLATFORM = {
-    "OS": platform.system(),
+    "OS": platform.system()
 }
 
 

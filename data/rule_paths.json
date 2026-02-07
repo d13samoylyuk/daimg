@@ -1,5 +1,5 @@
 {
-    "images_store": "images",
+    "images_store": "images_store",
     "config": "data/config.json",
     "env": "data/.env",
     "history": "data/history.csv",
