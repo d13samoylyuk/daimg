@@ -4,8 +4,6 @@ from pathlib import Path
 import platform
 import subprocess
 
-from test import screen_info
-
 
 MACHINE_PLATFORM = {
     "OS": platform.system()
