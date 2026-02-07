@@ -38,7 +38,6 @@ def setup_program() -> list[tuple]:
     
     for item in files_required:
         path = get_path(item)
-        print((path))
         if item in sys_files_contents:
             if not check_file_exists(path):
                 write_file(path, sys_files_contents[item])
