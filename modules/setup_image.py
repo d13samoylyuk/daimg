@@ -11,56 +11,57 @@ def DebugPrint(*args, **kwargs):
         print(*args, **kwargs)
 
 
-img_path = '/home/daniel/Desktop/NASA_WP/images/CatsPaw_Webb_1822_12.jpg'
-img = Image.open(img_path)
+def setup_image():
+    img_path = '/home/daniel/Desktop/NASA_WP/images/CatsPaw_Webb_1822_12.jpg'
+    img = Image.open(img_path)
 
 
 
-# Loading info about current screen
-screen = get_screen_info()
+    # Loading info about current screen
+    screen = get_screen_info()
 
-DebugPrint('screen info:', screen)
-
-
-
-# Create black scene with the size of the screen
-scene = Image.new('RGB', (screen['width'], screen['height']), (0, 0, 0))
+    DebugPrint('screen info:', screen)
 
 
 
-# getting ratios tendency to tell if the screen and image
-# are the same orientation
-ration_img = two_number_ratio(img.width, img.height)
-ratios_tendency = get_ratios_tendency(ration_img, screen['ratio'])
-
-DebugPrint('ratios tendency', ratios_tendency)
+    # Create black scene with the size of the screen
+    scene = Image.new('RGB', (screen['width'], screen['height']), (1, 1, 1))
 
 
 
+    # getting ratios tendency to tell if the screen and image
+    # are the same orientation
+    ration_img = two_number_ratio(img.width, img.height)
+    ratios_tendency = get_ratios_tendency(ration_img, screen['ratio'])
 
-# Calculate new image size to fit screen height first
-if ratios_tendency:
-    # image is same orientation as screen or square - fit to screen width
-    pass
-
-new_img_width = int(screen['height'] * img.width / img.height)
-new_img_height = screen['height']
-new_img_size = (new_img_width, new_img_height)
-
-DebugPrint('img scale', img.width, img.height)
-DebugPrint('img new scale', new_img_width, new_img_height)
+    DebugPrint('ratios tendency', ratios_tendency)
 
 
 
-# Apply new size to the image
-img = img.resize(new_img_size)
+
+    # Calculate new image size to fit screen height first
+    if ratios_tendency:
+        # image is same orientation as screen or square - fit to screen width
+        pass
+
+    new_img_width = int(screen['height'] * img.width / img.height)
+    new_img_height = screen['height']
+    new_img_size = (new_img_width, new_img_height)
+
+    DebugPrint('img scale', img.width, img.height)
+    DebugPrint('img new scale', new_img_width, new_img_height)
 
 
 
-# Calculate position to center the image on the scene
-x = 0#(screen['width'] - new_img_size[0]) #// 2
-y = (screen['height'] - new_img_size[1]) // 2
+    # Apply new size to the image
+    img = img.resize(new_img_size)
 
-scene.paste(img, (x, y))
 
-scene.save('_test/scene1.jpg')
+
+    # Calculate position to center the image on the scene
+    x = 0#(screen['width'] - new_img_size[0]) #// 2
+    y = (screen['height'] - new_img_size[1]) // 2
+
+    scene.paste(img, (x, y))
+
+    scene.save('_test/scene1.jpg')
