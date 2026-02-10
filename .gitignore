@@ -1,9 +1,14 @@
+# individual files
 images_store
 errors_hangout
-__pycache__
-.venv
-
-test.py
 config.json
 history.csv
 .env
+
+# system files
+__pycache__
+.venv
+
+# dev files
+_test
+test.py

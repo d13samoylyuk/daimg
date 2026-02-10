@@ -1,7 +1,8 @@
 from PIL import Image
 
-from modules.basic import (get_ratios_tendency, get_ratios_tendency,
-                           two_number_ratio)
+from modules.basic import fit_num_pairs
+from modules.files import read_csv_file
+from modules.program import get_path
 from modules.system import get_screen_info
 
 
@@ -11,9 +12,13 @@ def DebugPrint(*args, **kwargs):
         print(*args, **kwargs)
 
 
-def setup_image():
-    img_path = '/home/daniel/Desktop/NASA_WP/images/CatsPaw_Webb_1822_12.jpg'
-    img = Image.open(img_path)
+def setup_image(img_id: int):
+
+    image_info = read_csv_file(get_path('history'))[img_id-1]
+
+    img_path = (get_path('images_store'), image_info['file_name'])
+
+    img = Image.open('/'.join(img_path))
 
 
 
@@ -25,32 +30,18 @@ def setup_image():
 
 
     # Create black scene with the size of the screen
-    scene = Image.new('RGB', (screen['width'], screen['height']), (1, 1, 1))
+    scene = Image.new('RGB', (screen['height'], screen['width']), (10, 10, 10))
 
 
-
-    # getting ratios tendency to tell if the screen and image
-    # are the same orientation
-    ration_img = two_number_ratio(img.width, img.height)
-    ratios_tendency = get_ratios_tendency(ration_img, screen['ratio'])
-
-    DebugPrint('ratios tendency', ratios_tendency)
-
-
-
-
-    # Calculate new image size to fit screen height first
-    if ratios_tendency:
-        # image is same orientation as screen or square - fit to screen width
-        pass
-
-    new_img_width = int(screen['height'] * img.width / img.height)
-    new_img_height = screen['height']
-    new_img_size = (new_img_width, new_img_height)
+    # Calculate new image size to fully fit the screen,
+    #  which means that the biggest sides of an image must
+    #  be the same size as the biggest sides of the screen
+    new_img_size = fit_num_pairs((screen['width'], screen['height']),
+                                 (img.width, img.height))
 
     DebugPrint('img scale', img.width, img.height)
-    DebugPrint('img new scale', new_img_width, new_img_height)
-
+    DebugPrint('img new scale', new_img_size)
+    
 
 
     # Apply new size to the image

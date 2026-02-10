@@ -5,6 +5,7 @@ import platform
 import subprocess
 
 import tkinter
+from AppKit import NSScreen
 
 from modules.basic import two_number_ratio
 
@@ -75,10 +76,17 @@ def clear_terminal():
 def get_screen_info() -> tuple[int, int, tuple[int, int]]:
     '''returns screen width, height and aspect ratio as a tuple'''
 
-    root = tkinter.Tk()
-
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
+    if MACHINE_PLATFORM['OS'] == "Darwin":
+        main_screen = NSScreen.mainScreen()
+        frame = main_screen.frame()
+        scale_factor = main_screen.backingScaleFactor()
+        screen_width = int(frame.size.width * scale_factor)
+        screen_height = int(frame.size.height * scale_factor)
+    else:
+        root = tkinter.Tk()
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight() 
+        root.destroy()
 
     return {
         'width': screen_width,
