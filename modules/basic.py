@@ -19,13 +19,11 @@ def define_id(number: str | int,
     return f'{prefix}{num}{suffix}'
 
 
-
 def two_number_ratio(num1: int, num2: int) -> tuple:
     '''returns the simplest ratio of two numbers as a tuple'''
 
     gcd = math.gcd(num1, num2)
     return (num1//gcd, num2//gcd)
-
 
 
 def get_ratios_tendency(ratio_1: tuple[int],
@@ -43,7 +41,6 @@ def get_ratios_tendency(ratio_1: tuple[int],
         return True
     else:
         return False
-
 
 
 def fit_num_pairs(outer_num_pair: tuple[int],
@@ -96,3 +93,19 @@ def fit_num_pairs(outer_num_pair: tuple[int],
                    (smaller_side, bigger_side))
 
     return fitted_pair
+
+
+def add_columns_to_table(
+        init_table: list[list],
+        new_columns_head: list,
+        default_value: str | int = ''
+    ) -> list[list]:
+    
+    init_table[0] = init_table[0] + new_columns_head
+    new_head = init_table[0]
+
+    for id in range(len(init_table)):
+        while len(init_table[id]) != len(new_head):
+            init_table[id].append(default_value)
+    
+    return init_table

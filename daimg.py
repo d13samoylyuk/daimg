@@ -16,7 +16,8 @@ from modules.program import (get_path, last_img_as_wallpaper, load_api_key,
 
 @error_report()
 def run_program():
-    # Setup in case of first run
+    # Setup and program files update
+    inform('Checking program...')
     setup_program()
 
     inform('Checking API key...')

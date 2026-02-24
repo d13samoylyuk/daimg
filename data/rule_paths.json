@@ -5,5 +5,7 @@
     "history": "data/history.csv",
     "errors_hangout": "data/errors_hangout",
     "errors_info": "data/errors_hangout/.errors_info.json",
-    "errors_uncode": "data/errors_uncode.json"
+    "errors_uncode": "data/errors_uncode.json",
+    "setup_files": "data/_setup_files",
+    "paths_setup": "data/_setup_files/paths_setup.json"
 }
