@@ -8,9 +8,18 @@ from modules.system import img_as_desktop_wallpaper
 from modules.times import compare_time, str_to_time, time_now
 
 
-def get_path(file):
-    return read_json_file('data/rule_paths.json')[file]
+def get_path(file=None, 
+             get_all_paths=False
+             ) -> dict | str:
+    '''
+    Knows every needed path of this project's files.
+    '''
+    all_paths = read_json_file('data/rule_paths.json')
 
+    if get_all_paths or file == None:
+        return all_paths
+    
+    return all_paths[file]
 
 
 def load_api_key():

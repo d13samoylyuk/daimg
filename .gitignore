@@ -3,6 +3,8 @@ errors_hangout
 __pycache__
 .venv
 
+test_setup.py
+_test
 test.py
 config.json
 history.csv

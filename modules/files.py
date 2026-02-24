@@ -4,11 +4,78 @@ import json
 
 import requests
 
+from modules.basic import add_columns_to_table
+
+
+def read_any_file(file_path: str) -> any:
+    '''
+    Read files in defualt for this project modes.\\
+    Currently up for: **json**, **csv**
+    '''
+    foos_to_extnsh = {
+        'json': read_json_file,
+        'csv': read_csv_file_raw
+    }
+
+    file_extension = file_path.split('.')[-1]
+    
+    return foos_to_extnsh[file_extension](file_path)
+
+
+def write_any_file(file_path: str, content: any
+                   ) -> None:
+    '''
+    write files in defualt for this project modes.\\
+    Currently up for: **json**, **csv**
+    '''
+    foos_to_extnsh = {
+        'json': save_json_file,
+        'csv': write_csv_file_line
+    }
+
+    file_extension = file_path.split('.')[-1]
+    
+    foos_to_extnsh[file_extension](file_path, content)
+
 
 def read_csv_file(file_path: str) -> list:
     with open(file_path, encoding="utf-8") as csv_file:
         reader = csv.DictReader(csv_file)
         return list(reader)
+
+
+def read_csv_file_raw(file_path: str) -> list:
+    with open(file_path, encoding="utf-8") as csv_file:
+        reader = csv.reader(csv_file)
+        csv_lines = [line for line in reader]
+        return csv_lines
+
+
+def update_csv_columns(
+        file_path: str, 
+        new_columns: list | tuple
+    ) -> list[list]:
+    
+    csv_table = read_csv_file_raw(file_path)
+
+    updated_csv_table = add_columns_to_table(
+        init_table=csv_table,
+        new_columns_head=new_columns
+    )
+
+    write_csv_file_line(
+        file_path=file_path,
+        content=updated_csv_table
+    )
+
+    return updated_csv_table
+
+
+def write_csv_file_line(file_path: str, content: list[list]
+                   ) -> None:
+    with open(file_path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(content)
 
 
 def add_csv_line(file_path: str, line: str) -> None:
@@ -17,8 +84,8 @@ def add_csv_line(file_path: str, line: str) -> None:
         writer.writerow(line)
 
 
-def save_json_file(file_content: str, 
-                   file_path:str, 
+def save_json_file(file_path: str, 
+                   file_content: str, 
                    ensure: bool = True
                    ) -> None:
     slash = '/'
@@ -38,7 +105,7 @@ def update_json_file(file_path: str, key: str,
                      ) -> None:
     data = read_json_file(file_path)
     data[key] = value
-    save_json_file(data, file_path)
+    save_json_file(file_path=file_path, file_content=data)
 
 
 def dowload_file_from_url(url:  str, save_path: str) -> None:
@@ -65,9 +132,13 @@ def write_file(path: str, content: str, method: str = 'w') -> None:
         file.write(content)
 
 
-def create_folder(path, ingnor_FileExistsError=False):
+def create_path(path, ingnor_FileExistsError=False):
     try:
         os.mkdir(path)
     except FileExistsError as error:
         if not ingnor_FileExistsError:
             raise
+
+
+def list_dir_files(path):
+    return sorted(os.listdir(path))
