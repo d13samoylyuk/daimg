@@ -12,3 +12,4 @@ __pycache__
 # dev files
 _test
 test.py
+test_setup.py
