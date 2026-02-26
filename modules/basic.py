@@ -75,24 +75,26 @@ def fit_num_pairs(outer_num_pair: tuple[int],
     #   simply calling by the bool value.
 
     outer = dict(enumerate(outer_num_pair))
-    inner = dict(enumerate(inner_num_pair))
-
+    # By calling outer[outer_orient] the biggest
+    # value of outer is returned.
     outer_orient = (
-        outer[0] <= outer[1]
-        if ratio_tendecy else # in case of different orientation
-        not outer[0] <= outer[1]
-        )
-    # If False (0), first integer is bigger
+    outer[0] <= outer[1])
+
+    inner = dict(enumerate(inner_num_pair))
+    # By calling inner[inner_orient] the biggest
+    # value of inner is returned.
     inner_orient = (
-        inner[0] <= inner[1])
+        inner[0] <= inner[1]
+        if ratio_tendecy
+        else inner[0] >= inner[1]) # in case of different orientation
     
-    bigger_side = outer[outer_orient]
+    bigger_side = outer[not(outer_orient)]
     # A simple proportion (A * B) = (C * ?)
-    smaller_side = int(outer[outer_orient] * inner[not(inner_orient)]
-                   / inner[inner_orient])
+    smaller_side = int((outer[outer_orient] * inner[not(inner_orient)])
+                                / outer[not(inner_orient)])
     
-    fitted_pair = ((bigger_side, smaller_side)
+    fitted_pair = ((smaller_side, bigger_side)
                    if not(inner_orient) else # Just applying an orientation
-                   (smaller_side, bigger_side))
+                   (bigger_side, smaller_side))
 
     return fitted_pair

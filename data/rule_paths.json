@@ -5,5 +5,7 @@
     "history": "data/history.csv",
     "errors_hangout": "data/errors_hangout",
     "errors_info": "data/errors_hangout/.errors_info.json",
-    "errors_uncode": "data/errors_uncode.json"
+    "errors_uncode": "data/errors_uncode.json",
+    "fonts": "data/fonts",
+    "font_default": "data/fonts/SourceCodePro-Regular.ttf"
 }

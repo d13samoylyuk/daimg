@@ -1,5 +1,6 @@
 import os
 
+from PIL import ImageFont
 from dotenv import load_dotenv
 from modules.basic import define_id
 from modules.files import (add_csv_line, check_file_exists,
@@ -84,4 +85,15 @@ def last_img_as_wallpaper():
     last_img_path = get_path('images_store') + f'/{img_name}'
 
     return img_as_desktop_wallpaper(last_img_path)
-    
+
+
+def load_font(font_path: str = 'font_default',
+              font_size: int = 20):
+    try:
+        if font_path == 'font_default':
+            font_path = get_path(font_path)
+        return ImageFont.truetype(font=font_path,
+                                  size=font_size)
+    except IOError:
+        print("Font file not found, using default font.")
+        return ImageFont.load_default(size=font_size)
