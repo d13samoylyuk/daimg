@@ -4,11 +4,6 @@ from pathlib import Path
 import platform
 import subprocess
 
-import tkinter
-from AppKit import NSScreen
-
-from modules.basic import two_number_ratio
-
 
 MACHINE_PLATFORM = {
     "OS": platform.system()
@@ -71,25 +66,3 @@ def clear_terminal():
         os.system('clear')
     elif MACHINE_PLATFORM['OS'] == 'Windows':
         os.system('cls')
-
-
-def get_screen_info() -> tuple[int, int, tuple[int, int]]:
-    '''returns screen width, height and aspect ratio as a tuple'''
-
-    if MACHINE_PLATFORM['OS'] == "Darwin":
-        main_screen = NSScreen.mainScreen()
-        frame = main_screen.frame()
-        scale_factor = main_screen.backingScaleFactor()
-        screen_width = int(frame.size.width * scale_factor)
-        screen_height = int(frame.size.height * scale_factor)
-    else:
-        root = tkinter.Tk()
-        screen_width = root.winfo_screenwidth()
-        screen_height = root.winfo_screenheight() 
-        root.destroy()
-
-    return {
-        'width': screen_width,
-        'height': screen_height,
-        'ratio': two_number_ratio(screen_width, screen_height)
-    }
