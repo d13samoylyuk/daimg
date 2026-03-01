@@ -7,13 +7,16 @@ A desktop wallpaper manager that uses daily downloaded images from services like
 - Python 3.10+
   
 All required modules are placed in the [`requirements.txt`](requirements.txt) file.
+
+## Font License
+This project uses [Chivo Mono](data/fonts/ChivoMono/ChivoMono-Light.ttf) by [Omnibus-Type](https://www.omnibus-type.com), licensed under [SIL Open Font License Version 1.1](https://openfontlicense.org/open-font-license-official-text/).
+
 ## Currently tested and works on:
 - Windows 11
 - Linux: *runs with `daimg.sh` file*
   - Gnome (Debian tested)
 
 Other Windows versions and OSes are not guaranteed to support this project.
-
 
 ## Usage:
 ### Start up
