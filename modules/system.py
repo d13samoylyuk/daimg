@@ -11,17 +11,20 @@ MACHINE_PLATFORM = {
 
 
 def img_as_desktop_wallpaper(img_path):
+    platform_function = {
+        'Linux': _linux_wp_setup,
+        'Darwin': _macos_wb_setup,
+        'Windows': _windows_wp_setup
+    }
+
     platform = MACHINE_PLATFORM['OS']
 
-    if platform == 'Windows':
-        abs_path = os.path.abspath(img_path)
-        _windows_wp_setup(abs_path)
-
-    elif platform == 'Linux':
-        _linux_wp_setup(img_path=img_path)
+    platform_function[platform](img_path)
 
 
-def _windows_wp_setup(abs_path):
+def _windows_wp_setup(img_path):
+
+    abs_path = os.path.abspath(img_path)
     
     SPI_SETDESKWALLPAPER = 0x0014
     SPIF_UPDATEINIFILE = 0x01
@@ -61,8 +64,22 @@ def _linux_wp_setup(img_path):
         uri])
 
 
+def _macos_wb_setup(img_path):
+    '''
+    Sets the desktop wallpaper on macOS using AppleScript
+    '''
+    full_path = os.path.abspath(img_path)
+
+    script = f'''
+    tell application "Finder"
+        set desktop picture to POSIX file "{full_path}"
+    end tell
+    '''
+    subprocess.run(["osascript", "-e", script], check=True)
+
+
 def clear_terminal():
-    if MACHINE_PLATFORM['OS'] == 'Linux':
+    if MACHINE_PLATFORM['OS'] in ['Linux', 'Darwin']:
         os.system('clear')
     elif MACHINE_PLATFORM['OS'] == 'Windows':
         os.system('cls')
