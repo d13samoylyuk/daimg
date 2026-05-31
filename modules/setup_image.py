@@ -1,5 +1,6 @@
 from PIL import Image
 
+from debug import DebugPrint
 from modules.basic import fit_num_pairs
 from modules.files import read_csv_file
 from modules.program import get_path
@@ -12,15 +13,9 @@ FONT_SIZE = 30
 
 class Padding:
     '''
-    Percentaged to the screen
+    Proportion to the screen
     '''
     text = 0.25
-
-
-Debug = True
-def DebugPrint(*args, **kwargs):
-    if Debug:
-        print(*args, **kwargs)
 
 
 def setup_image(img_id: int):
@@ -51,18 +46,22 @@ def setup_image(img_id: int):
     image_area = new_img_size[0] * new_img_size[1]
     left_over_area = screen_area - image_area
 
-    if screen['height'] == new_img_size[1]:
+    is_text_on_right = screen['height'] == new_img_size[1]
+
+    # Determine the size of a field that left
+    # after the image which then would be used
+    # as the Text Field - (Width, Height)
+
+    text_field_size = (0, 0)
+    if is_text_on_right:
         text_field_size = (screen['width'] - new_img_size[0], 
                       screen['height'])
     else:
         text_field_size = (screen['width'], 
                       screen['height'] - new_img_size[1])
         
-    DebugPrint('text field size', text_field_size)
-    DebugPrint(
-        '\n   screen area: ', screen_area,
-        '\n    image area: ', image_area,
-        '\nleft over area: ', left_over_area)
+    DebugPrint('text field size', text_field_size,
+               '\n  is text on the right side', is_text_on_right)
     
 
     # Get the text image
@@ -103,13 +102,18 @@ def setup_image(img_id: int):
 
 
     # Calculate the position to center the image on the scene
+    # If image is vertical
     x = 0#(screen['width'] - new_img_size[0]) #// 2
     y = 0#(screen['height'] - new_img_size[1]) // 2
 
 
-    # Calculate the position of the on the wallpaer scene
-    x_text_field = new_img_size[0]
-    y_text_field = 0
+    # Calculate the position of the text on the wallpaer scene
+    if is_text_on_right:
+        x_text_field = new_img_size[0]
+        y_text_field = 0
+    else:
+        x_text_field = 0
+        y_text_field = new_img_size[1]
 
     # Puzzle the wallpaper
     scene.paste(img, (x, y))

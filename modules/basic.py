@@ -1,5 +1,7 @@
 import math
 
+from debug import DebugPrint
+
 
 def define_id(number: str | int,
               prefix: str = "id_",
@@ -25,6 +27,41 @@ def two_number_ratio(num1: int, num2: int) -> tuple:
 
     gcd = math.gcd(num1, num2)
     return (num1//gcd, num2//gcd)
+
+
+
+def compare_ratios(ratio_1: tuple[int],
+                   ratio_2: tuple[int]
+                   ) -> bool:
+    '''
+    Compare two ratios by equaling 2nd ratio
+    to 1st by the first ratios number and put
+    second ratios numbers under compare.\n
+    Return True if first ratio's 2nd number
+    is bigger or equal than second ratio's 
+    2nd number, else return False.
+    \n\n
+    Example:\\
+    ratio_1 = (16,9)\\
+    ratio_2 = (4,3)\\
+    Adjusting ratio_2 to ratio_1 by equaling
+    ratio_2's 1st number to ratio_1's 1st number:\\
+    (4,3) -> (16,**12**)\\
+    since “12” in 16:12 bigger than “9” in 16:9,
+    False is returned.
+    '''
+
+    ratio_compared = round(
+        ratio_1[0] * ratio_2[1]
+            / ratio_2[0]
+    )
+
+    compare = ratio_1[1] >= ratio_compared
+
+    if compare:
+        return True
+    else:
+        return False
 
 
 
@@ -61,9 +98,11 @@ def fit_num_pairs(outer_num_pair: tuple[int],
     optimised to fit to the outer_num_pair.
     '''
 
-    ratio_tendecy = get_ratios_tendency(
+    ratio_tendency = compare_ratios(
         outer_num_pair, inner_num_pair
     )
+
+    DebugPrint("ratio tendency: ", ratio_tendency)
 
     # --> What's going on below: 
     #   the bool values "True" and "False" are equivalent
@@ -77,22 +116,27 @@ def fit_num_pairs(outer_num_pair: tuple[int],
     outer = dict(enumerate(outer_num_pair))
     # By calling "outer[outer_orient]" the biggest
     # value of outer is returned.
-    outer_orient = (outer[0] <= outer[1])
+    outer_orient = (False if outer[0] > outer[1]
+                    else True)
 
     inner = dict(enumerate(inner_num_pair))
     # By calling "inner[inner_orient]" the biggest
     # value of inner is returned.
-    inner_orient = (inner[0] <= inner[1])
+    inner_orient = (False if inner[0] > inner[1]
+                    else True)
     
-    bigger_side = outer[not(outer_orient)]
+    DebugPrint(inner, inner_orient, inner[inner_orient])
+    
+    if not ratio_tendency:
+        bigger_side = outer[not(outer_orient)]
+    else:
+        bigger_side = outer[outer_orient]
+    
     # A simple proportion (A / B) = (C / ?)
     smaller_side = int((bigger_side * inner[not(inner_orient)])
                                 / inner[inner_orient])
-    
-    # print("\nThe equasion to calculate the smallest side:\n",
-    #     bigger_side, '*', inner[not(inner_orient)],
-    #                 '\n/', inner[inner_orient])
         
-    fitted_pair = (smaller_side, bigger_side)
+    fitted_pair = ((smaller_side, bigger_side) if not ratio_tendency
+                   else (bigger_side, smaller_side))
 
     return fitted_pair

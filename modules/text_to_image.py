@@ -36,7 +36,8 @@ def know_text_size(
         font_size: int = 20
     ) -> tuple[int]:
     '''
-    Calculate text size in pixels based on
+    Calculate text size in pixels based on font
+    and sise
     '''
 
     image = Image.new("RGB", (100, 100), color="white")
@@ -71,6 +72,10 @@ def text_field_and_wrap(
         font_path=font_path,
         font_size=font_size)
     font_line_height = text_single_line[1]
+
+    # text_box_size = text_single_line
+    # wrapped_text = textwrap.fill(
+    #         text, width=len(text)+1)
 
     for lengh in range(1, len(text)+1):
         try_wrapped_text = textwrap.fill(
