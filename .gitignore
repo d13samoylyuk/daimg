@@ -4,6 +4,7 @@ errors_hangout
 config.json
 history.csv
 .env
+data/wallpapers_store
 
 # system files
 __pycache__
