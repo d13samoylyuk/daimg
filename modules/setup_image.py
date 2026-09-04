@@ -89,14 +89,13 @@ def setup_image(img_id: int = None,
 
         if text_box_size[1] > text_size[1]:
             font_size_al -= 1
-            print(step+1)
             if step == 10:
                 font_size_al = None
                 break
         else:
             break
 
-    DebugPrint(f'Suggest font size: {FONT_SIZE}, used: {font_size_al}')
+    DebugPrint(f'Suggested font size: {FONT_SIZE}, used: {font_size_al}')
 
     if font_size_al:
         text_image = text_to_field(
