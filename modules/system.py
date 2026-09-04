@@ -5,7 +5,6 @@ import platform
 import subprocess
 
 import tkinter
-from AppKit import NSScreen
 
 from modules.basic import two_number_ratio
 
@@ -13,6 +12,8 @@ from modules.basic import two_number_ratio
 MACHINE_PLATFORM = {
     "OS": platform.system()
 }
+if MACHINE_PLATFORM['OS'] == 'Darwin':
+    from AppKit import NSScreen
 
 
 def img_as_desktop_wallpaper(img_path):
