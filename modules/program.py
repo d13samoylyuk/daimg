@@ -90,8 +90,10 @@ def make_name_from_url(url, get_suffix=True):
 
 
 def last_img_as_wallpaper():
-    img_name = last_record()['file_name']
-    last_img_path = get_path('images_store') + f'/{img_name}'
+    img_info = last_record()
+    img_id = img_info['id']
+    img_name = img_info['file_name']
+    last_img_path = get_path('wallpapers_store') + f'/{img_id}_{img_name}'
 
     return img_as_desktop_wallpaper(last_img_path)
 

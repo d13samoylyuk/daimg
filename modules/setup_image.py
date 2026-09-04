@@ -1,14 +1,16 @@
 from PIL import Image
 
 from debug import DebugPrint
-from modules.basic import fit_num_pairs
+from modules.basic import aspect_fit
 from modules.files import read_csv_file
-from modules.program import get_path
+from modules.program import get_path, last_record
 from modules.system import get_screen_info
 from modules.text_to_image import text_field_and_wrap, text_to_field
 
 
 FONT_SIZE = 30
+wallpapers_folder = get_path("wallpapers_store")
+WALLPAPERS_FOLDER = wallpapers_folder
 
 
 class Padding:
@@ -18,7 +20,12 @@ class Padding:
     text = 0.25
 
 
-def setup_image(img_id: int):
+def setup_image(img_id: int = None,
+                save_path = WALLPAPERS_FOLDER,
+                wp_file_name = None):
+    if not img_id:
+        img_id = int(last_record()['id'])
+
     # Loading info about current screen
     screen = get_screen_info()
     # Create black scene with the size of the screen
@@ -32,7 +39,7 @@ def setup_image(img_id: int):
     img_path = (get_path('images_store'), image_info['file_name'])
     img = Image.open('/'.join(img_path))
     # Calculate new image size to fully fit the screen
-    new_img_size = fit_num_pairs((screen['width'], screen['height']),
+    new_img_size = aspect_fit((screen['width'], screen['height']),
                                  (img.width, img.height))
 
     DebugPrint('img scale', img.width, img.height)
@@ -103,8 +110,8 @@ def setup_image(img_id: int):
 
     # Calculate the position to center the image on the scene
     # If image is vertical
-    x = 0#(screen['width'] - new_img_size[0]) #// 2
-    y = 0#(screen['height'] - new_img_size[1]) // 2
+    x = 0
+    y = 0
 
 
     # Calculate the position of the text on the wallpaer scene
@@ -120,4 +127,6 @@ def setup_image(img_id: int):
     scene.paste(text_field_img,
                 (x_text_field, y_text_field))
 
-    scene.save('_test/scene1.jpg')
+    if not wp_file_name:
+        wp_file_name = f'{img_id}_{image_info['file_name']}'
+    scene.save(f"{save_path}/{wp_file_name}")

@@ -13,6 +13,8 @@ from modules.interface import inform
 from modules.program import (get_path, last_img_as_wallpaper, load_api_key,
                              make_name_from_url, new_apod_needed,
                              save_user_data, update_history)
+from modules.setup_image import setup_image
+
 
 @error_report()
 def run_program():
@@ -59,6 +61,10 @@ def run_program():
 
     # Add apod data to history
     update_history( apod_data['date'], apod_data)
+
+    # Prepare the image as a wallpaper
+    inform('Building wallpaper...')
+    setup_image()
 
     # Set wallpaper
     inform('Setting wallpaper...')

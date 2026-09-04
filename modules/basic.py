@@ -49,18 +49,14 @@ def compare_ratios(ratio_1: tuple[int],
     since “12” in 16:12 bigger than “9” in 16:9,
     False is returned.
     '''
+    
+    ratio_1_eq = ratio_1[0] > ratio_1[1]
+    ratio_2_eq = ratio_2[0] > ratio_2[1]
 
-    ratio_compared = round(
-        ratio_1[0] * ratio_2[1]
-            / ratio_2[0]
-    )
-
-    compare = ratio_1[1] >= ratio_compared
-
-    if compare:
+    if ratio_1_eq == ratio_2_eq:
         return True
     else:
-        return False
+        return 
 
 
 
@@ -81,7 +77,7 @@ def get_ratios_tendency(ratio_1: tuple[int],
         return False
 
 
-def fit_num_pairs(outer_num_pair: tuple[int],
+def aspect_fit(container_num_pair: tuple[int],
                   inner_num_pair: tuple[int]
                   ) -> tuple[int]:
     '''
@@ -96,48 +92,13 @@ def fit_num_pairs(outer_num_pair: tuple[int],
     optimised to fit to the outer_num_pair.
     '''
 
-    ratio_tendency = compare_ratios(
-        outer_num_pair, inner_num_pair
-    )
+    k = min(container_num_pair[0]/inner_num_pair[0],
+        container_num_pair[1]/inner_num_pair[1])
 
-    DebugPrint("ratio tendency: ", ratio_tendency)
+    img_width = round(inner_num_pair[0] * k)
+    img_height = round(inner_num_pair[1] * k)
 
-    # --> What's going on below: 
-    #   the bool values "True" and "False" are equivalent
-    #   to 1 and 0, which can be used to assign indexes
-    #   of two-option data sets. Thus they can be used
-    #   to call a state-depending values, for example,
-    #   in a tuple ("start", "abort") by their index, which
-    #   is a bool value or a dictionary {0: "start"; 1: "abort"}
-    #   simply calling by the bool value.
-
-    outer = dict(enumerate(outer_num_pair))
-    # By calling "outer[outer_orient]" the biggest
-    # value of outer is returned.
-    outer_orient = (False if outer[0] > outer[1]
-                    else True)
-
-    inner = dict(enumerate(inner_num_pair))
-    # By calling "inner[inner_orient]" the biggest
-    # value of inner is returned.
-    inner_orient = (False if inner[0] > inner[1]
-                    else True)
-    
-    DebugPrint(inner, inner_orient, inner[inner_orient])
-    
-    if not ratio_tendency:
-        bigger_side = outer[not(outer_orient)]
-    else:
-        bigger_side = outer[outer_orient]
-    
-    # A simple proportion (A / B) = (C / ?)
-    smaller_side = int((bigger_side * inner[not(inner_orient)])
-                                / inner[inner_orient])
-        
-    fitted_pair = ((smaller_side, bigger_side) if not ratio_tendency
-                   else (bigger_side, smaller_side))
-
-    return fitted_pair
+    return (img_width, img_height)
 
 
 def add_columns_to_table(

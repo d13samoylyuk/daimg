@@ -9,5 +9,6 @@
     "setup_files": "data/_setup_files",
     "paths_setup": "data/_setup_files/paths_setup.json",
     "fonts": "data/fonts",
-    "font_default": "data/fonts/ChivoMono/ChivoMono-Light.ttf"
+    "font_default": "data/fonts/ChivoMono/ChivoMono-Light.ttf",
+    "wallpapers_store": "data/wallpapers_store"
 }
