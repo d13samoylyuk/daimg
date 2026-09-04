@@ -111,3 +111,11 @@ def get_screen_info() -> tuple[int, int, tuple[int, int]]:
         'height': screen_height,
         'ratio': two_number_ratio(screen_width, screen_height)
     }
+
+
+def get_font_size():
+    k = 1/54
+    screen_height = get_screen_info()['height']
+    font_size = round(screen_height * k)
+
+    return font_size

@@ -81,15 +81,15 @@ def aspect_fit(container_num_pair: tuple[int],
                   inner_num_pair: tuple[int]
                   ) -> tuple[int]:
     '''
-    Considers outer_num_pair as a "parent" number pair
+    Considers container_num_pair as a "parent" number pair
     which should fit inside a "child" inner_num_pair 
     number pair.
 
     For example:                                    \\
-    outer_num_pair = (1920, 1080) # AKA screen      \\
+    container_num_pair = (1920, 1080) # AKA screen  \\
     inner_num_pair = (1000, 600)  # AKA image       \\
     returns (1920, 1152), which is inner_num_pair
-    optimised to fit to the outer_num_pair.
+    optimised to fit to the container_num_pair.
     '''
 
     k = min(container_num_pair[0]/inner_num_pair[0],

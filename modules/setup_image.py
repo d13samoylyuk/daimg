@@ -4,11 +4,11 @@ from debug import DebugPrint
 from modules.basic import aspect_fit
 from modules.files import read_csv_file
 from modules.program import get_path, last_record
-from modules.system import get_screen_info
+from modules.system import get_font_size, get_screen_info
 from modules.text_to_image import text_field_and_wrap, text_to_field
 
 
-FONT_SIZE = 30
+FONT_SIZE = get_font_size()
 wallpapers_folder = get_path("wallpapers_store")
 WALLPAPERS_FOLDER = wallpapers_folder
 
@@ -23,6 +23,9 @@ class Padding:
 def setup_image(img_id: int = None,
                 save_path = WALLPAPERS_FOLDER,
                 wp_file_name = None):
+    global FONT_SIZE
+    font_size_al = FONT_SIZE
+
     if not img_id:
         img_id = int(last_record()['id'])
 
@@ -77,27 +80,49 @@ def setup_image(img_id: int = None,
         text_field_size[0] - round(text_field_size[0] * Padding.text),
         text_field_size[1] - round(text_field_size[1] * Padding.text))
 
-    text_box_size, wrapped_text = text_field_and_wrap(
-        scene_width=text_size[0],
-        text=description,
-        font_size=FONT_SIZE)
-
-    text_image = text_to_field(
-        text=wrapped_text,
-        fields_size=text_box_size,
-        font_size=FONT_SIZE)
-
-    # Create a text field image and
-    # paste the text image on it
-    text_field_img = Image.new(
-        'RGBA', text_field_size, (0, 0, 0, 0))
     
-    x_text = round(
-        (text_field_size[0] - text_box_size[0]) / 2)
-    y_text = round(
-        (text_field_size[1] - text_box_size[1]) / 2)
-    text_field_img.paste(
-        text_image, (x_text, y_text))
+    for step in range(11):
+        text_box_size, wrapped_text = text_field_and_wrap(
+            scene_width=text_size[0],
+            text=description,
+            font_size=font_size_al)
+
+        if text_box_size[1] > text_size[1]:
+            font_size_al -= 1
+            print(step+1)
+            if step == 10:
+                font_size_al = None
+                break
+        else:
+            break
+
+    DebugPrint(f'Suggest font size: {FONT_SIZE}, used: {font_size_al}')
+
+    if font_size_al:
+        text_image = text_to_field(
+            text=wrapped_text,
+            fields_size=text_box_size,
+            font_size=font_size_al)
+
+        # Create a text field image and
+        # paste the text image on it
+        text_field_img = Image.new(
+            'RGBA', text_field_size, (0, 0, 0, 0))
+        
+        x_text = round(
+            (text_field_size[0] - text_box_size[0]) / 2)
+        y_text = round(
+            (text_field_size[1] - text_box_size[1]) / 2)
+        text_field_img.paste(
+            text_image, (x_text, y_text))
+
+        # Calculate the position of the text on the wallpaer scene
+        if is_text_on_right:
+            x_text_field = new_img_size[0]
+            y_text_field = 0
+        else:
+            x_text_field = 0
+            y_text_field = new_img_size[1]
 
 
     # Apply padding to the image size
@@ -113,19 +138,12 @@ def setup_image(img_id: int = None,
     x = 0
     y = 0
 
-
-    # Calculate the position of the text on the wallpaer scene
-    if is_text_on_right:
-        x_text_field = new_img_size[0]
-        y_text_field = 0
-    else:
-        x_text_field = 0
-        y_text_field = new_img_size[1]
-
     # Puzzle the wallpaper
     scene.paste(img, (x, y))
-    scene.paste(text_field_img,
-                (x_text_field, y_text_field))
+
+    if font_size_al:
+        scene.paste(text_field_img,
+                    (x_text_field, y_text_field))
 
     if not wp_file_name:
         wp_file_name = f'{img_id}_{image_info['file_name']}'
