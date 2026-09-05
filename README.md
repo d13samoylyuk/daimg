@@ -23,7 +23,7 @@ Other Windows versions and Linux distributions are not guaranteed to support thi
 
 ## Usage:
 ### Start up
-The program is run the [`daimg.py`](daimg.py) file.
+The program is run by the [`daimg.py`](daimg.py) file.
 
 At launch, the program checks for and creates:
 1. path `images`
